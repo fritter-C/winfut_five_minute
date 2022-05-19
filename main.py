@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from scipy import stats
 import numpy as np
 
 
@@ -20,7 +19,8 @@ def main():
         aux2 = ((aux.loc[aux['High'] == high]).iloc[-1])
         aux3 = ((aux.loc[aux['Low'] == low]).iloc[-1])
 
-        if (aux['Open'].iloc[-1] > aux['Close'].iloc[0]):
+        # se for um dia de baixa adiciona a máxima do dia senão adiciona a mínima
+        if aux['Open'].iloc[-1] > aux['Close'].iloc[0]:
             x.append(aux2['Candle'])
         else:
             x.append(aux3['Candle'])
@@ -34,36 +34,19 @@ def main():
     # adding sub plots
     ax2 = fig.add_subplot(1, 2, 2)
 
-    data = stats.cumfreq(x)
-    print(data)
-
-    xl = np.array(x)
     xl = np.unique(x)
     print(xl)
     y = []
     for value in xl:
         y.append(x.count(value))
-    y = np.array(y)
-    y = y.cumsum()
+    lo = np.array(y)
+
+    lo = lo.cumsum()
     print(y)
-    ax1.hist(x, bins=100, color="green")
-    ax2.bar(xl, y/y.max(), color="blue")
+    print(x)
+    ax1.bar(xl, y, color="green")
+    ax2.bar(xl, lo / lo.max(), color="blue")
     plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
