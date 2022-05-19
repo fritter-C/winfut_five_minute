@@ -39,12 +39,14 @@ def main():
     y = []
     for value in xl:
         y.append(x.count(value))
+
+    norm = [i / max(y) for i in y]
     lo = np.array(y)
 
     lo = lo.cumsum()
     print(y)
     print(x)
-    ax1.bar(xl, y, color="green")
+    ax1.bar(xl, norm, color="green")
     ax2.bar(xl, lo / lo.max(), color="blue")
     plt.show()
 
